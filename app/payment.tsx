@@ -21,34 +21,35 @@ export default function PaymentScreen() {
     { id: 'wallet', name: 'Digital Wallet', icon: Wallet, color: '#f59e0b' },
   ];
 
-  const handlePayment = () => {
-    if (!selectedPaymentMethod) {
-      Alert.alert('Error', 'Please select a payment method');
-      return;
-    }
+// Update payment.tsx
+const handlePayment = () => {
+  if (!selectedPaymentMethod) {
+    Alert.alert('Error', 'Please select a payment method');
+    return;
+  }
 
-    // Mock payment processing
-    setTimeout(() => {
-      const qrCode = generateQRCode();
-      const purchase = {
-        id: Date.now().toString(),
-        items: cart,
-        total: total,
-        date: new Date().toLocaleDateString(),
-        qrCode: qrCode,
-        storeName: currentStore?.name || 'Unknown Store'
-      };
+  setTimeout(() => {
+    const qrCode = generateQRCode();
+    const purchase = {
+      id: Date.now().toString(),
+      items: cart,
+      total: total,
+      date: new Date().toLocaleDateString(),
+      qrCode: qrCode,
+      storeName: currentStore?.name || 'Unknown Store'
+    };
 
-      addPurchase(purchase);
-      setPurchaseQRCode(qrCode);
-      setShowSuccess(true);
-    }, 1500);
-  };
-
-  const handleComplete = () => {
+    addPurchase(purchase);
+    setPurchaseQRCode(qrCode);
+    setShowSuccess(true);
+    
     clearCart();
-    router.replace('/cart');
-  };
+  }, 1500);
+};
+
+const handleComplete = () => {
+  router.replace('/home'); 
+};
 
   const renderCartItem = ({ item }: { item: any }) => (
     <View style={styles.orderItem}>

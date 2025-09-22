@@ -19,51 +19,28 @@ export default function ScannerScreen() {
     }
   }, [isScanning]);
 
-  const handleMockScan = () => {
-    // Get a random product for simulation
-    const randomProduct = mockProducts[Math.floor(Math.random() * mockProducts.length)];
-    
-    // Check if product belongs to current store
-    if (currentStore && randomProduct.storeId !== currentStore.id) {
-      setIsScanning(false);
-      Alert.alert(
-        'Store Mismatch',
-        `This product belongs to ${randomProduct.storeName}. Please select that store to purchase this item.`,
-        [
-          { text: 'OK', onPress: () => router.back() }
-        ]
-      );
-      return;
-    }
-
-    // Check if cart has items from different store
-    if (cart.length > 0 && cart[0].storeId !== randomProduct.storeId) {
-      setIsScanning(false);
-      Alert.alert(
-        'Store Mismatch',
-        'This product belongs to another store. Please select that store to purchase.',
-        [
-          { text: 'OK', onPress: () => router.back() }
-        ]
-      );
-      return;
-    }
-
-    // Add to cart
-    const success = addToCart(randomProduct);
-    setIsScanning(false);
-    
-    if (success) {
-      Alert.alert(
-        'Item Added!',
-        `${randomProduct.name} has been added to your cart.`,
-        [
-          { text: 'Continue Shopping', onPress: () => setIsScanning(true) },
-          { text: 'View Cart', onPress: () => router.back() }
-        ]
-      );
-    }
-  };
+ // Update scanner.tsx
+const handleMockScan = () => {
+  const storeProducts = mockProducts.filter(
+    product => product.storeId === (currentStore?.id || '1')
+  );
+  const randomProduct = storeProducts.length > 0 
+    ? storeProducts[Math.floor(Math.random() * storeProducts.length)]
+    : mockProducts[Math.floor(Math.random() * mockProducts.length)];
+  const success = addToCart(randomProduct);
+  setIsScanning(false);
+  
+  if (success) {
+    Alert.alert(
+      'Item Added!',
+      `${randomProduct.name} has been added to your cart.`,
+      [
+        { text: 'Continue Shopping', onPress: () => setIsScanning(true) },
+        { text: 'View Cart', onPress: () => router.back() }
+      ]
+    );
+  }
+};
 
   const handleManualBack = () => {
     router.back();

@@ -56,7 +56,7 @@ export default function HomeScreen() {
           <MapPin size={20} color="#2563eb" />
           <View style={styles.locationText}>
             <Text style={styles.locationTitle}>Current Location</Text>
-            <Text style={styles.locationSubtitle}>Downtown, City Center</Text>
+            <Text style={styles.locationSubtitle}>Ramapuram, Chennai</Text>
           </View>
         </View>
         <TouchableOpacity 

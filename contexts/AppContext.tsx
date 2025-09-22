@@ -5,6 +5,8 @@ export interface User {
   name: string;
   email: string;
   photo?: string;
+  role: 'customer' | 'admin'; 
+  storeId?: string; 
 }
 
 export interface Store {
@@ -37,6 +39,19 @@ export interface Purchase {
   storeName: string;
 }
 
+export interface StoreStats {
+  totalRevenue: number;
+  totalOrders: number;
+  averageOrderValue: number;
+  popularProducts: Product[];
+}
+
+export interface AdminData {
+  storeStats: StoreStats;
+  recentOrders: Purchase[];
+  lowStockProducts: Product[];
+}
+
 interface AppContextType {
   user: User | null;
   setUser: (user: User | null) => void;
@@ -50,6 +65,13 @@ interface AppContextType {
   purchases: Purchase[];
   addPurchase: (purchase: Purchase) => void;
   isLoggedIn: boolean;
+  // Add these admin properties
+  isAdmin: boolean;
+  adminData: AdminData;
+  updateProduct: (productId: string, updates: Partial<Product>) => void;
+  deleteProduct: (productId: string) => void;
+  addProduct: (product: Product) => void;
+  updateStore: (storeId: string, updates: Partial<Store>) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -67,11 +89,24 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [currentStore, setCurrentStore] = useState<Store | null>(null);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [purchases, setPurchases] = useState<Purchase[]>([]);
+  
+  // Add admin data state
+  const [adminData, setAdminData] = useState<AdminData>({
+    storeStats: {
+      totalRevenue: 0,
+      totalOrders: 0,
+      averageOrderValue: 0,
+      popularProducts: []
+    },
+    recentOrders: [],
+    lowStockProducts: []
+  });
+
+  const isAdmin = user?.role === 'admin';
 
   const addToCart = (product: Product): boolean => {
-    // Validate store match
     if (cart.length > 0 && cart[0].storeId !== product.storeId) {
-      return false; // Store mismatch
+      return false;
     }
 
     setCart(prevCart => {
@@ -98,7 +133,73 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   const addPurchase = (purchase: Purchase) => {
     setPurchases(prevPurchases => [purchase, ...prevPurchases]);
+    
+    if (isAdmin) {
+      updateAdminData();
+    }
   };
+
+  const updateProduct = (productId: string, updates: Partial<Product>) => {
+    console.log(`Updating product ${productId} with:`, updates);
+
+  };
+
+  const deleteProduct = (productId: string) => {
+
+    console.log(`Deleting product ${productId}`);
+
+  };
+
+  const addProduct = (product: Product) => {
+ 
+    console.log('Adding new product:', product);
+ 
+  };
+
+  const updateStore = (storeId: string, updates: Partial<Store>) => {
+
+    console.log(`Updating store ${storeId} with:`, updates);
+
+  };
+
+  const updateAdminData = () => {
+    const today = new Date().toLocaleDateString();
+    const todaySales = purchases.filter(p => p.date === today);
+    const totalRevenue = todaySales.reduce((sum, p) => sum + p.total, 0);
+    const totalOrders = todaySales.length;
+    const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+
+    const popularProducts = purchases
+      .flatMap(p => p.items)
+      .reduce((acc, item) => {
+        const existing = acc.find(i => i.id === item.id);
+        if (existing) {
+          existing.quantity += item.quantity;
+        } else {
+          acc.push({...item});
+        }
+        return acc;
+      }, [] as CartItem[])
+      .sort((a, b) => b.quantity - a.quantity)
+      .slice(0, 5);
+
+    setAdminData({
+      storeStats: {
+        totalRevenue,
+        totalOrders,
+        averageOrderValue: avgOrderValue,
+        popularProducts: popularProducts
+      },
+      recentOrders: purchases.slice(0, 10),
+      lowStockProducts: [] 
+    });
+  };
+
+  React.useEffect(() => {
+    if (isAdmin) {
+      updateAdminData();
+    }
+  }, [user, purchases]);
 
   return (
     <AppContext.Provider
@@ -115,6 +216,12 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         purchases,
         addPurchase,
         isLoggedIn: !!user,
+        isAdmin,
+        adminData,
+        updateProduct,
+        deleteProduct,
+        addProduct,
+        updateStore
       }}
     >
       {children}
