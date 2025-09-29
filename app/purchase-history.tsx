@@ -17,7 +17,7 @@ export default function PurchaseHistoryScreen() {
             <Text style={styles.dateText}>{item.date}</Text>
           </View>
         </View>
-        <Text style={styles.purchaseTotal}>${item.total.toFixed(2)}</Text>
+        <Text style={styles.purchaseTotal}>Rs.{item.total.toFixed(2)}</Text>
       </View>
 
       <View style={styles.purchaseItems}>
