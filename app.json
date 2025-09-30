@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "No Queue Shopping app",
-    "slug": "no-queue-shopping-app",
+    "name": "bolt-expo-nativewind",
+    "slug": "bolt-expo-nativewind",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",

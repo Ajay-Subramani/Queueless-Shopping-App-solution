@@ -58,7 +58,7 @@ const handleComplete = () => {
         <Text style={styles.itemName}>{item.name}</Text>
         <Text style={styles.itemQuantity}>Qty: {item.quantity}</Text>
       </View>
-      <Text style={styles.itemPrice}>${(item.price * item.quantity).toFixed(2)}</Text>
+      <Text style={styles.itemPrice}>Rs.(item.price * item.quantity).toFixed(2)}</Text>
     </View>
   );
 
@@ -106,7 +106,7 @@ const handleComplete = () => {
 
         <View style={styles.totalContainer}>
           <Text style={styles.totalLabel}>Total Amount</Text>
-          <Text style={styles.totalAmount}>${total.toFixed(2)}</Text>
+          <Text style={styles.totalAmount}>Rs.{total.toFixed(2)}</Text>
         </View>
 
         <Text style={styles.sectionTitle}>Payment Method</Text>
@@ -136,7 +136,7 @@ const handleComplete = () => {
           onPress={handlePayment}
           disabled={!selectedPaymentMethod}
         >
-          <Text style={styles.payButtonText}>Pay ${total.toFixed(2)}</Text>
+          <Text style={styles.payButtonText}>Pay Rs.{total.toFixed(2)}</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

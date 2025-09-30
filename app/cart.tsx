@@ -53,7 +53,7 @@ export default function CartScreen() {
       <View style={styles.itemInfo}>
         <Text style={styles.itemName}>{item.name}</Text>
         <Text style={styles.itemStore}>{item.storeName}</Text>
-        <Text style={styles.itemPrice}>${item.price.toFixed(2)} x {item.quantity}</Text>
+        <Text style={styles.itemPrice}>Rs.{item.price.toFixed(2)} x {item.quantity}</Text>
         {item.canTryOn && (
           <TouchableOpacity 
             style={styles.tryOnButton}
@@ -110,7 +110,7 @@ export default function CartScreen() {
 
         {cart.length > 0 && (
           <View style={styles.totalContainer}>
-            <Text style={styles.totalText}>Total: ${total.toFixed(2)}</Text>
+            <Text style={styles.totalText}>Total: Rs.{total.toFixed(2)}</Text>
           </View>
         )}
       </View>

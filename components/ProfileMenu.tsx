@@ -64,11 +64,6 @@ export default function ProfileMenu({ visible, onClose }: ProfileMenuProps) {
             <Text style={styles.menuItemText}>Purchase History</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.menuItem}>
-            <Settings size={24} color="#666" />
-            <Text style={styles.menuItemText}>Settings</Text>
-          </TouchableOpacity>
-
           <TouchableOpacity style={styles.menuItem} onPress={handleLogout}>
             <LogOut size={24} color="#ef4444" />
             <Text style={[styles.menuItemText, { color: '#ef4444' }]}>Logout</Text>
