@@ -18,7 +18,6 @@ export default function PaymentScreen() {
   const paymentMethods = [
     { id: 'upi', name: 'UPI Payment', icon: Smartphone, color: '#22c55e' },
     { id: 'card', name: 'Credit/Debit Card', icon: CreditCard, color: '#2563eb' },
-    { id: 'wallet', name: 'Digital Wallet', icon: Wallet, color: '#f59e0b' },
   ];
 
 // Update payment.tsx

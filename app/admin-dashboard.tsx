@@ -46,7 +46,7 @@ export default function AdminDashboard() {
             <View style={[styles.statIcon, { backgroundColor: '#eff6ff' }]}>
               <DollarSign size={24} color="#2563eb" />
             </View>
-            <Text style={styles.statValue}>${totalRevenue.toFixed(2)}</Text>
+            <Text style={styles.statValue}>Rs.{totalRevenue.toFixed(2)}</Text>
             <Text style={styles.statLabel}>Today's Revenue</Text>
           </View>
 
@@ -64,7 +64,7 @@ export default function AdminDashboard() {
             <View style={[styles.statIcon, { backgroundColor: '#fffbeb' }]}>
               <BarChart size={24} color="#f59e0b" />
             </View>
-            <Text style={styles.statValue}>${avgOrderValue.toFixed(2)}</Text>
+            <Text style={styles.statValue}>Rs.{avgOrderValue.toFixed(2)}</Text>
             <Text style={styles.statLabel}>Avg. Order Value</Text>
           </View>
 
@@ -91,7 +91,7 @@ export default function AdminDashboard() {
                 </View>
                 <View style={styles.orderDetails}>
                   <Text style={styles.orderDate}>{item.date}</Text>
-                  <Text style={styles.orderTotal}>${item.total.toFixed(2)}</Text>
+                  <Text style={styles.orderTotal}>Rs.{item.total.toFixed(2)}</Text>
                 </View>
               </View>
             )}
@@ -114,9 +114,6 @@ export default function AdminDashboard() {
             <Text style={styles.actionText}>Manage Products</Text>
           </TouchableOpacity>
           
-          <TouchableOpacity style={styles.actionButton}>
-            <Text style={styles.actionText}>Store Settings</Text>
-          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
